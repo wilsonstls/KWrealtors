@@ -1,0 +1,5 @@
+<root>
+    <item name='java.util.Collections EMPTY_LIST'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+</root>
