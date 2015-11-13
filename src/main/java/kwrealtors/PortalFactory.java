@@ -4,7 +4,7 @@ package kwrealtors;
 /** 
   * User: wilsonstls
   * Date: 9/16/15 
-  *Factory design pattern implementation for the employee portal 
+  *Factory design pattern implementation based on the user's job type
 */
 
 public class PortalFactory {

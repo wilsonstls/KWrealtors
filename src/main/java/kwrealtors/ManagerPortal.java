@@ -1,12 +1,15 @@
 package kwrealtors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import javax.swing.*;
-import java.awt.*;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+
 
 /**
 *wilsonstls
@@ -15,10 +18,10 @@ import java.awt.event.ActionListener;
 */
 
 public class ManagerPortal extends Portal
-{ 
+{
+
 
    {
-
        P.setLayout(new BoxLayout(P, BoxLayout.PAGE_AXIS));
        P.add(bL1);
        P.add(bL2);
@@ -26,23 +29,23 @@ public class ManagerPortal extends Portal
        P.add(L2);
        P.add(bL4);
        P.add(bL5);
-       P.add(L5);
-       P.add(B5);
 
        /** list all current employees */
+       P.add(L5);
+       P.add(B5);
        B5.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e)  {
 
                ApplicationContext context = new ClassPathXmlApplicationContext("application-context.xml");
-               KwRealtorsApp kwrealtorsApp = (KwRealtorsApp) context.getBean("kwrealtorsApp");
+               KwRealtorsApp kwRealtorsApp = (KwRealtorsApp) context.getBean("kwrealtorsApp");
                try {
-                   kwrealtorsApp.fetchAllEmployee();
-               } catch (Exception e1) {
-                   e1.printStackTrace();
-               }
+                   kwRealtorsApp.fetchAllEmployee();
+
+               } catch (Exception e1) { e1.printStackTrace(); }
            }
-       });
+
+       });  // ends B5 Listener
 
 
        /* Listing of all available property for sale */
@@ -64,6 +67,7 @@ public class ManagerPortal extends Portal
            }
        });
 
+       /* Listing of property by price */
        P.add(bL12);
        P.add(L11);
        P.add(B11);
@@ -81,6 +85,7 @@ public class ManagerPortal extends Portal
            }
        });
 
+       /* Listing of property by agent */
        P.add(bL13);
        P.add(L12);
        P.add(B12);
@@ -99,6 +104,28 @@ public class ManagerPortal extends Portal
        });
 
 
+              /* To Change Password */
+       P.add(bL24);
+       P.add(bL25);
+       P.add(bL26);
+       P.add(L21);
+       P.add(B21);
+       B21.addActionListener(new ActionListener() {
+           @Override
+           public void actionPerformed(ActionEvent e) {
+
+               ApplicationContext context = new ClassPathXmlApplicationContext("application-context.xml");
+               KwRealtorsApp kwrealtorsApp = (KwRealtorsApp) context.getBean("kwrealtorsApp");
+               try {
+                   kwrealtorsApp.changePassW();
+               } catch (Exception e1) {
+                   e1.printStackTrace();
+               }
+           }
+       });
+
+
+       /**  quit */
        P.add(bL10);
        P.add(bL11);
        P.add(L1);
@@ -117,4 +144,8 @@ public class ManagerPortal extends Portal
            frame.setVisible(true);
 
        }
-   }
+
+
+}// closes ManagerPortal
+
+

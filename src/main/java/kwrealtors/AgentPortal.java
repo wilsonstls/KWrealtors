@@ -1,16 +1,12 @@
 package kwrealtors;
 
-import org.hibernate.annotations.Where;
-import org.hibernate.sql.Select;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import javax.persistence.criteria.From;
 import javax.swing.*;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.*;
+
 
 /**
  *wilsonstls
@@ -55,13 +51,12 @@ public class AgentPortal extends Portal
         B14.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("\nAdd a property listing to the database\n");
+
                 ApplicationContext context = new ClassPathXmlApplicationContext("application-context.xml");
                 KwRealtorsApp kwrealtorsApp = (KwRealtorsApp) context.getBean("kwrealtorsApp");
                 try {
                     kwrealtorsApp.propertyAddProperty();
                 } catch (Exception e1) {
-                    System.out.println("\nThere was a problem with your entry!");
                     e1.printStackTrace();
                 }
             }
@@ -75,13 +70,11 @@ public class AgentPortal extends Portal
         B16.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("\nUpdate a property listing \n");
                 ApplicationContext context = new ClassPathXmlApplicationContext("application-context.xml");
                 KwRealtorsApp kwrealtorsApp = (KwRealtorsApp) context.getBean("kwrealtorsApp");
                 try {
                     kwrealtorsApp.propertyUpdateProperty();
                 } catch (Exception e1) {
-                    System.out.println("\nThere was a problem with your entry!");
                     e1.printStackTrace();
                 }
             }
@@ -95,13 +88,32 @@ public class AgentPortal extends Portal
         B15.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("\nDelete a property listing \n");
+                ApplicationContext context = new ClassPathXmlApplicationContext("application-context.xml");
+                KwRealtorsApp kwrealtorsApp = (KwRealtorsApp) context.getBean("kwrealtorsApp");
+                    try {
+                        kwrealtorsApp.propertyDeleteProperty();
+                    } catch (Exception e1) {
+                        e1.printStackTrace();
+                    }
+            }
+        });
+
+
+                      /* To Change Password */
+        P.add(bL24);
+        P.add(bL25);
+        P.add(bL26);
+        P.add(L21);
+        P.add(B21);
+        B21.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
                 ApplicationContext context = new ClassPathXmlApplicationContext("application-context.xml");
                 KwRealtorsApp kwrealtorsApp = (KwRealtorsApp) context.getBean("kwrealtorsApp");
                 try {
-                    kwrealtorsApp.propertyDeleteProperty();
+                    kwrealtorsApp.changePassW();
                 } catch (Exception e1) {
-                    System.out.println("\nThere was a problem with your entry!");
                     e1.printStackTrace();
                 }
             }
@@ -127,5 +139,6 @@ public class AgentPortal extends Portal
         frame.setVisible(true);
 
     }
+
 }
 

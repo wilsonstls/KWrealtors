@@ -6,164 +6,207 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext; 
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import javax.swing.*;
+import java.awt.*;
+import java.util.List;
 
 /** 
-  * User: wilsonstls
-  * Date: 9/11/15
+  * Author: wilsonstls
+  * Date: 11/11/15
+  * This app instigates a in-house portal to be used by a real estate company for its employees.
+  * Employees will sign in with a valid ID and password. After signing in the user will then be directed
+  * to their portal page based on their job type as set up in the Employee db table.
   */
 
 @Component 
 public class KwRealtorsApp {
 
+
     public static void main(String[] varArgs) throws Exception {
 
-
-        System.out.println("\n     Welcome to KW REALTORS employees portal \n");
-        System.out.println("\n");
-
+        /** sign in using your employee ID & password */
         ApplicationContext context = new ClassPathXmlApplicationContext("application-context.xml");
-        KwRealtorsApp kwrealtorsApp = (KwRealtorsApp) context.getBean("kwrealtorsApp");
-        kwrealtorsApp.fetchEmployee();
+        SignInPortal signInPortal = (SignInPortal) context.getBean("signInPortal");
+        signInPortal.signIn();
 
     }
 
 
     @Autowired
     private KwRealtorsDao kwrealtorsDao;
-    @Autowired
-    private AppOutput appOutput;
-
-    private void fetchEmployee() throws Exception {
-
-        /** retrieve employee portal based on user input */
-        @SuppressWarnings("unchecked")
-        List<Employee> employeesGetEmployee = kwrealtorsDao.getEmployee();
-        /** user's employee id is valid  */
-        if (!employeesGetEmployee.isEmpty()) {
-            for (Employee employee : employeesGetEmployee) {
-
-                String jobTitle = "null";
-                String jobType = employee.getJobType();
-                switch (jobType) {
-                    case "A":
-                        jobTitle = "Agent   ";
-                        break;
-                    case "C":
-                        jobTitle = "Clerical";
-                        break;
-                    case "M":
-                        jobTitle = "Manager ";
-                        break;
-                }
-                appOutput.print(String.format("--- %s  %s   %s", employee.getFirstName(), employee.getLastName(), jobTitle ));
-                PortalFactory.makePortalType(employee.getJobType());
-            }
-        }
-        /** user's entry is not valid  */
-        if (employeesGetEmployee.isEmpty()) {
-            appOutput.print(String.format("  !! Employee ID not valid !!"));
-        }
-    }  // closes fetchEmployee
 
 
+
+    /** fetches all active employees from db */
     public void fetchAllEmployee() throws Exception {
 
-        /** list all active employees for KW Realtors */
-        appOutput.print(String.format("\nList of all active employees\n"));
-        appOutput.print(String.format( "                                   Empl_ID  License_No   Date Hired\n" ));
-        @SuppressWarnings("unchecked")
-        List<Employee> employeeAllEmployees = kwrealtorsDao.getEmployeeAllEmployees();
-        for (Employee employee : employeeAllEmployees) {
-            String jobTitle = "null";
-            String jobType = employee.getJobType();
-            switch (jobType) {
-                case "A":
-                    jobTitle = "Agent   ";
-                    break;
-                case "C":
-                    jobTitle = "Clerical";
-                    break;
-                case "M":
-                    jobTitle = "Manager ";
-                    break;
-            }
-            appOutput.print(String.format(jobTitle + "  - %-9s  %-12s    %s   %6s    %s", employee.getFirstName(), employee.getLastName(),
-                    employee.getEmplID(), employee.getLicenseNo(), employee.getHireDate()));
-        }
+         @SuppressWarnings("unchecked")
+         List<Employee> employeeList = kwrealtorsDao.getEmployeeAllEmployees();
+
+        /** creates a table model for the implementation of the RowTableModel */
+        final BeanTableModel btModel = new BeanTableModel(Employee.class, employeeList);
+        /** sort by column name in order to set the same index order for every run */
+        btModel.sortColumnNames();
+        /** create the table */
+        JTable table = new JTable(btModel);
+
+        /** move & remove columns, after they have been sorted, to appear as you want in the Jtable */
+        table.moveColumn(0,5);  //empl_id moves to 5th index col in Jtable
+        table.moveColumn(3,0);  //last name moves to 0 "  "  will appear 1st - First name doesn't move
+        table.moveColumn(3,2);  // move job type to appear after first name
+        table.moveColumn(4,3);  // move license no to appear after job type
+        table.removeColumn( table.getColumn( "Status" ) );  // no need to show this column
+
+        JScrollPane scrollPane = new JScrollPane(table);
+
+        final JFrame frame = new JFrame("KW realtors");
+        JLabel lblHeading = new JLabel("Active Employees");
+        lblHeading.setFont(new Font("Arial",Font.TRUETYPE_FONT, 18));
+
+        frame.getContentPane().setLayout(new BorderLayout());
+        frame.getContentPane().add(lblHeading, BorderLayout.PAGE_START);
+        frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
+        frame.setVisible(true);
+
     }  // closes fetchAllEmployee
 
 
+    /** list all property listings for KW Realtors */
     public void fetchAllProperty() throws Exception {
 
-        /** list all property listings for KW Realtors */
-        appOutput.print(String.format("\nLIST of all available property\n"));
-        appOutput.print(String.format("Listing ID                                                             Agent "));
         @SuppressWarnings("unchecked")
-        List<Property> propertyAllProperty = kwrealtorsDao.getPropertyAllProperty();
-        for (Property property : propertyAllProperty) {
+        List<Property> propertyList = kwrealtorsDao.getPropertyAllProperty();
 
-            appOutput.print(String.format("%s----  %-20s %-12s  $%7s  %10s  %6s", property.getListID(), property.getAddrStreet(),
-                    property.getAddrCity(), property.getPrice(), property.getListingDate(), property.getLicenseNo()));
-        }
+        /** creates a table model for the implementation of the RowTableModel */
+        final BeanTableModel btModel = new BeanTableModel(Property.class, propertyList);
+        /** sort by column name in order to set the same index order for every run */
+        btModel.sortColumnNames();
+        /** create the table */
+        JTable table = new JTable(btModel);
+
+        /** move & remove columns to appear as you want in the Jtable */
+        table.moveColumn(6,0);  //listing ID moves to 0 - City is now 1; Street is 2
+        table.removeColumn( table.getColumn( "Addr State" ) );  // no need to show
+        table.removeColumn( table.getColumn( "Addr Zip" ) );  // no need to show this column
+        table.removeColumn( table.getColumn( "Beds" ) );  // no need to show this column
+        table.moveColumn(5,3);  // move price to appear after street
+        table.moveColumn(5,4);  // move listing date to appear after price - License No is now last
+        table.removeColumn( table.getColumn( "Sq Ft" ) );  // no need to show this column
+
+        JScrollPane scrollPane = new JScrollPane(table);
+
+        final JFrame frame = new JFrame("KW realtors");
+        JLabel lblHeading = new JLabel("Available Properties");
+        lblHeading.setFont(new Font("Arial",Font.TRUETYPE_FONT, 18));
+
+        frame.getContentPane().setLayout(new BorderLayout());
+        frame.getContentPane().add(lblHeading, BorderLayout.PAGE_START);
+        frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
+        frame.setVisible(true);
+
     }
-  //  }// closes fetchAllProperty
-
 
 
     public void fetchPropertyByPrice() throws Exception {
 
-        /** property listings by listing Price */
-        appOutput.print(String.format("\nLIST of property by price\n"));
-        appOutput.print(String.format("         Listing_ID"));
         @SuppressWarnings("unchecked")
-        List<Property> propertyByPrice = kwrealtorsDao.getPropertyByPrice();
-        for (Property property : propertyByPrice) {
+        List<Property> propertyList = kwrealtorsDao.getPropertyByPrice();
 
-            appOutput.print(String.format("$%7s   %s   %-20s  %-13s", property.getPrice(), property.getListID(), property.getAddrStreet(),
-                    property.getAddrCity()));
-        }
+        /** creates a table model for the implementation of the RowTableModel */
+        final BeanTableModel btModel = new BeanTableModel(Property.class, propertyList);
+        /** sort by column name in order to set the same index order for every run */
+        btModel.sortColumnNames();
+        /** create the table */
+        JTable table = new JTable(btModel);
+
+        /** move & remove columns to appear as you want in the Jtable */
+        table.moveColumn(8,0);  //Price moves to 0 - City is now 1; Street is 2
+        table.removeColumn( table.getColumn( "Addr State" ) );  // no need to show
+        table.removeColumn( table.getColumn( "Addr Zip" ) );  // no need to show this column
+        table.removeColumn( table.getColumn( "Beds" ) );  // no need to show this column
+        table.moveColumn(5,3);  // move price to appear after street
+        table.moveColumn(5,4);  // move listing date to appear after price - License No is now last
+        table.removeColumn( table.getColumn( "Sq Ft" ) );  // no need to show this column
+
+        JScrollPane scrollPane = new JScrollPane(table);
+
+        final JFrame frame = new JFrame("KW realtors");
+        JLabel lblHeading = new JLabel("Available Properties by Price");
+        lblHeading.setFont(new Font("Arial",Font.TRUETYPE_FONT, 18));
+
+        frame.getContentPane().setLayout(new BorderLayout());
+        frame.getContentPane().add(lblHeading, BorderLayout.PAGE_START);
+        frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
+        frame.setVisible(true);
+
     }  // closes fetchPropertyByPrice
 
 
+    /** property listings by Agent */
     public void fetchPropertyByAgent() throws Exception {
 
-        /** property listings by Agent */
-        appOutput.print(String.format("\nLIST of property by agent\n"));
-        appOutput.print(String.format("Agent    Listing_ID"));
         @SuppressWarnings("unchecked")
-        List<Property> propertyByAgent = kwrealtorsDao.getPropertyByAgent();
-        int tmpID = 0;
-        for (Property property : propertyByAgent) {
+        List<Property> propertyList = kwrealtorsDao.getPropertyByAgent();
 
-            if (!(property.getLicenseNo() == tmpID)) {
-                appOutput.print(String.format(" "));
-                appOutput.print(String.format("%s   %s   %-20s  %-12s   $%7s", property.getLicenseNo(), property.getListID(), property.getAddrStreet(),
-                        property.getAddrCity(), property.getPrice()));
-            } else
-                appOutput.print(String.format("%s   %s   %-20s  %-12s   $%7s", property.getLicenseNo(), property.getListID(), property.getAddrStreet(),
-                        property.getAddrCity(), property.getPrice()));
-            tmpID = property.getLicenseNo();
-        }
+        /** creates a table model for the implementation of the RowTableModel */
+        final BeanTableModel btModel = new BeanTableModel(Property.class, propertyList);
+        /** sort by column name in order to set the same index order for every run */
+        btModel.sortColumnNames();
+        /** create the table */
+        JTable table = new JTable(btModel);
+
+        /** move & remove columns to appear as you want in the Jtable */
+        table.moveColumn(5,0);  //License No moves to 0 - City is now 1; Street is 2
+        table.removeColumn( table.getColumn( "Addr State" ) );  // no need to show
+        table.removeColumn( table.getColumn( "Addr Zip" ) );  // no need to show this column
+        table.removeColumn( table.getColumn( "Beds" ) );  // no need to show this column
+        table.moveColumn(5,3);  // move price to appear after street
+        table.moveColumn(5,4);  // move listing date to appear after price - License No is now last
+        table.removeColumn( table.getColumn( "Sq Ft" ) );  // no need to show this column
+
+        JScrollPane scrollPane = new JScrollPane(table);
+
+        final JFrame frame = new JFrame("KW realtors");
+        JLabel lblHeading = new JLabel("Available Properties by Agent");
+        lblHeading.setFont(new Font("Arial",Font.TRUETYPE_FONT, 18));
+
+        frame.getContentPane().setLayout(new BorderLayout());
+        frame.getContentPane().add(lblHeading, BorderLayout.PAGE_START);
+        frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
+        frame.setVisible(true);
+
     }  // closes fetchPropertyByAgent
 
+    /** property listings for an agent */
     public void fetchAgentProperty() throws Exception {
 
-            /** property listings for an agent */
-
             @SuppressWarnings("unchecked")
-            List<Property> propertyAgentProperty = kwrealtorsDao.getPropertyAgentProperty();
+            List<Property> propertyList = kwrealtorsDao.getPropertyAgentProperty();
 
-            if (!propertyAgentProperty.isEmpty()) {
-                appOutput.print(String.format("\nListing ID                                          Sq ft  Beds  Price    Dated Listed"));
-                for (Property property : propertyAgentProperty) {
-                appOutput.print(String.format("%s   %-20s  %-12s %s   %s   %s   $%7s   %s", property.getListID(), property.getAddrStreet(),
-                        property.getAddrCity(), property.getAddrZip(), property.getSqFt(), property.getBeds(), property.getPrice(), property.getListingDate()));
-            }
-            }
-            if (propertyAgentProperty.isEmpty()) {
-                appOutput.print(String.format("  !! License Number invalid !!"));
-            }
+        /** creates a table model for the implementation of the RowTableModel */
+        final BeanTableModel btModel = new BeanTableModel(Property.class, propertyList);
+        /** sort by column name in order to set the same index order for every run */
+        btModel.sortColumnNames();
+        /** create the table */
+        JTable table = new JTable(btModel);
+
+        /** move & remove columns to appear as you want in the Jtable  */
+        table.moveColumn(5,0);  //license No moves to 0 - City is now 1; Street is 2
+        table.moveColumn(6,1);  // move listing ID to appear after license no
+        table.moveColumn(7,8);  //
+        table.moveColumn(9,7);  // move sq ft
+
+        JScrollPane scrollPane = new JScrollPane(table);
+
+        final JFrame frame = new JFrame("KW realtors");
+        JLabel lblHeading = new JLabel("Your Property Listings");
+        lblHeading.setFont(new Font("Arial",Font.TRUETYPE_FONT, 18));
+
+        frame.getContentPane().setLayout(new BorderLayout());
+        frame.getContentPane().add(lblHeading, BorderLayout.PAGE_START);
+        frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
+        frame.setVisible(true);
+
     }  // closes fetchAgentProperty
 
 
@@ -202,10 +245,16 @@ public class KwRealtorsApp {
 
     public void propertyDeleteProperty() throws Exception {
 
-        kwrealtorsDao.propertyDeleteProperty();
+            kwrealtorsDao.propertyDeleteProperty();
 
     }
 
+
+    public void changePassW() throws Exception{
+
+        kwrealtorsDao.passwChange();
+
+    }
 
 } // closes KwRealtorsApp
 

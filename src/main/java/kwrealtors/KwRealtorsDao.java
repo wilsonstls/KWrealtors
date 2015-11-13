@@ -10,7 +10,6 @@ import java.util.List;
   */ 
 public interface KwRealtorsDao {
 
-     public List getEmployee();
      public List getEmployeeAllEmployees();
      public List getPropertyAgentProperty();
      public List getPropertyAllProperty();
@@ -22,5 +21,5 @@ public interface KwRealtorsDao {
      public void propertyAddProperty();
      public void propertyDeleteProperty();
      public void propertyUpdateProperty();
-
-} 
+     public void passwChange();
+}
