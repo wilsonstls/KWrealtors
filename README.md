@@ -21,5 +21,8 @@ Employee - stores all employee info. Only the Clerical staff can make changes to
 Property - stores all the avaliable property listed by the company. Only an agent can make changes to this table. Agents can add a listing and only that agent can then update or delete that listing. 
 User - contains ID & passwords of all active employees.
 Key - used as a storage of the instance ID & real estate License No
+                    
+BeanTableModel; RowTableModel         
+from GitHub account - arlahiru
 
 java version:  1.8.0 
