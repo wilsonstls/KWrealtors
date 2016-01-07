@@ -50,6 +50,8 @@ public abstract class Portal {
     JLabel bL24 = new JLabel("\n");
     JLabel bL25 = new JLabel("\n");
     JLabel bL26 = new JLabel("\n");
+    JLabel bL27 = new JLabel("\n");
+    JLabel bL28 = new JLabel("\n");
 
     JLabel L1 = new JLabel("    QUIT");
     JLabel L2 = new JLabel(" As the Manager you are allow to perform these actions: ");
@@ -71,5 +73,6 @@ public abstract class Portal {
     JLabel L19 = new JLabel("    Enter employee ID: ");
     JLabel L20 = new JLabel("    Enter password: ");
     JLabel L21 = new JLabel("    Change your Password ");
+    JLabel L22 = new JLabel("    Click on a row to map its location");
 
 }

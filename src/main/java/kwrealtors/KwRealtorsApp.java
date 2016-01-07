@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import javax.swing.*;
 import java.awt.*;
+
 import java.util.List;
 
 /** 
@@ -45,8 +46,10 @@ public class KwRealtorsApp {
 
         /** creates a table model for the implementation of the RowTableModel */
         final BeanTableModel btModel = new BeanTableModel(Employee.class, employeeList);
+
         /** sort by column name in order to set the same index order for every run */
         btModel.sortColumnNames();
+
         /** create the table */
         JTable table = new JTable(btModel);
 
@@ -60,11 +63,14 @@ public class KwRealtorsApp {
         JScrollPane scrollPane = new JScrollPane(table);
 
         final JFrame frame = new JFrame("KW realtors");
-        JLabel lblHeading = new JLabel("Active Employees");
-        lblHeading.setFont(new Font("Arial",Font.TRUETYPE_FONT, 18));
+        JLabel tHeading = new JLabel("Active Employees");
+        tHeading.setFont(new Font("Arial",Font.TRUETYPE_FONT, 18));
+        JLabel bHeading = new JLabel("JobType = A: Agent  C: Clerical  M: Manager");
+        bHeading.setFont(new Font("Arial", Font.TRUETYPE_FONT, 20));
 
         frame.getContentPane().setLayout(new BorderLayout());
-        frame.getContentPane().add(lblHeading, BorderLayout.PAGE_START);
+        frame.getContentPane().add(tHeading, BorderLayout.PAGE_START);
+        frame.getContentPane().add(bHeading, BorderLayout.PAGE_END);
         frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
         frame.setVisible(true);
 
@@ -96,11 +102,11 @@ public class KwRealtorsApp {
         JScrollPane scrollPane = new JScrollPane(table);
 
         final JFrame frame = new JFrame("KW realtors");
-        JLabel lblHeading = new JLabel("Available Properties");
-        lblHeading.setFont(new Font("Arial",Font.TRUETYPE_FONT, 18));
+        JLabel tHeading = new JLabel("Available Properties");
+        tHeading.setFont(new Font("Arial",Font.TRUETYPE_FONT, 18));
 
         frame.getContentPane().setLayout(new BorderLayout());
-        frame.getContentPane().add(lblHeading, BorderLayout.PAGE_START);
+        frame.getContentPane().add(tHeading, BorderLayout.PAGE_START);
         frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
         frame.setVisible(true);
 
@@ -131,11 +137,11 @@ public class KwRealtorsApp {
         JScrollPane scrollPane = new JScrollPane(table);
 
         final JFrame frame = new JFrame("KW realtors");
-        JLabel lblHeading = new JLabel("Available Properties by Price");
-        lblHeading.setFont(new Font("Arial",Font.TRUETYPE_FONT, 18));
+        JLabel tHeading = new JLabel("Available Properties by Price");
+        tHeading.setFont(new Font("Arial",Font.TRUETYPE_FONT, 18));
 
         frame.getContentPane().setLayout(new BorderLayout());
-        frame.getContentPane().add(lblHeading, BorderLayout.PAGE_START);
+        frame.getContentPane().add(tHeading, BorderLayout.PAGE_START);
         frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
         frame.setVisible(true);
 
@@ -167,11 +173,11 @@ public class KwRealtorsApp {
         JScrollPane scrollPane = new JScrollPane(table);
 
         final JFrame frame = new JFrame("KW realtors");
-        JLabel lblHeading = new JLabel("Available Properties by Agent");
-        lblHeading.setFont(new Font("Arial",Font.TRUETYPE_FONT, 18));
+        JLabel tHeading = new JLabel("Available Properties by Agent");
+        tHeading.setFont(new Font("Arial",Font.TRUETYPE_FONT, 18));
 
         frame.getContentPane().setLayout(new BorderLayout());
-        frame.getContentPane().add(lblHeading, BorderLayout.PAGE_START);
+        frame.getContentPane().add(tHeading, BorderLayout.PAGE_START);
         frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
         frame.setVisible(true);
 
@@ -199,13 +205,27 @@ public class KwRealtorsApp {
         JScrollPane scrollPane = new JScrollPane(table);
 
         final JFrame frame = new JFrame("KW realtors");
-        JLabel lblHeading = new JLabel("Your Property Listings");
-        lblHeading.setFont(new Font("Arial",Font.TRUETYPE_FONT, 18));
+       // JLabel bHeading = new JLabel("Click the Listing to see its location");
+       // bHeading.setFont(new Font("Arial", Font.TRUETYPE_FONT, 20));
 
         frame.getContentPane().setLayout(new BorderLayout());
-        frame.getContentPane().add(lblHeading, BorderLayout.PAGE_START);
         frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
+      //  frame.add(bHeading, BorderLayout.PAGE_END);
         frame.setVisible(true);
+
+
+        /** Listener checks if any property listing row has been clicked on
+        table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent event) {
+                if (table.getSelectedRow() > -1) {
+
+                    System.out.println("Reminder: internet connection is needed for a map lookup.");
+
+                }
+            }
+        });
+         */
 
     }  // closes fetchAgentProperty
 

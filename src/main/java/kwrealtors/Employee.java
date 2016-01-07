@@ -60,9 +60,7 @@ public class Employee {
     public String getJobType() {
         return jobType;
     }
-    public void setJobType( String job_type ) {
-        this.jobType = job_type;
-    }
+    public void setJobType( String job_type ) { this.jobType = job_type; }
     public String getHireDate() {
         return hireDate;
     }

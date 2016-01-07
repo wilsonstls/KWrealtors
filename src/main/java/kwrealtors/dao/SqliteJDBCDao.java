@@ -16,7 +16,6 @@ import javax.swing.*;
 import java.util.List;
 
 
-
 @Repository
 public class SqliteJDBCDao implements KwRealtorsDao {
 
