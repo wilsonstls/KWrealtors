@@ -7,8 +7,12 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Component;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 
+import java.io.*;
+import java.net.URL;
 import java.util.List;
 
 /** 
@@ -205,77 +209,124 @@ public class KwRealtorsApp {
         JScrollPane scrollPane = new JScrollPane(table);
 
         final JFrame frame = new JFrame("KW realtors");
-       // JLabel bHeading = new JLabel("Click the Listing to see its location");
-       // bHeading.setFont(new Font("Arial", Font.TRUETYPE_FONT, 20));
+        JLabel bHeading = new JLabel("Click on a Listing to map its location");
+        bHeading.setFont(new Font("Arial", Font.TRUETYPE_FONT, 20));
 
         frame.getContentPane().setLayout(new BorderLayout());
         frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
-      //  frame.add(bHeading, BorderLayout.PAGE_END);
+        frame.add(bHeading, BorderLayout.PAGE_END);
         frame.setVisible(true);
 
-
-        /** Listener checks if any property listing row has been clicked on
-        table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent event) {
-                if (table.getSelectedRow() > -1) {
-
-                    System.out.println("Reminder: internet connection is needed for a map lookup.");
-
-                }
-            }
-        });
+        /** Listener will check if a row in the property listing has been clicked on
+         *  if so, generate a map of that location
          */
+                 table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+                     @Override
+                     public void valueChanged(ListSelectionEvent event) {
+                         if (table.getSelectedRow() > -1) {
+                             System.out.println("Reminder: an internet connection is necessary for a map lookup.");
 
-    }  // closes fetchAgentProperty
-
-
-    public void employeeAddEmployee() throws Exception {
-
-        kwrealtorsDao.employeeAddEmployee();
-
-    }
-
-    public void employeeUpdateEmployee() throws Exception {
-
-        kwrealtorsDao.employeeUpdateEmployee();
-
-    }
+                             /** remove any existing map image files from the root directory */
+                             String fileName = "map.jpg";
+                             File f = new File(fileName);
+                             boolean success = f.delete();
+                             if (!success)
+                                 System.out.println("No map files were found");
 
 
-    public void employeeDeleteEmployee() throws Exception {
+                             JFrame mapFrame = new JFrame("Map of selected Listing");
 
-        kwrealtorsDao.employeeDeleteEmployee();
+                             Object streetAdd, cityAdd, stAdd;
+                             streetAdd = (table.getValueAt(+table.getSelectedRow(), 4));
+                             cityAdd = (table.getValueAt(+table.getSelectedRow(), 2));
+                             stAdd = (table.getValueAt(+table.getSelectedRow(), 3));
 
-    }
+                             try {
+                                 String strUrl = "https://maps.googleapis.com/maps/api/staticmap?center="+streetAdd+","+cityAdd+","+stAdd+"&zoom=15&markers="+streetAdd+","+cityAdd+","+stAdd+"&size=600x500&scale=2&maptype=roadmap";
+                                 //remove all white spaces from the string url
+                                 String mapUrl = strUrl.replaceAll(" ", "%20");
+
+                                 String destinationFile = "map.jpg";
+                                 URL url = new URL(mapUrl);
+                                 InputStream is = url.openStream();
+                                 OutputStream os = new FileOutputStream(destinationFile);
+
+                                 byte[] b = new byte[2048];
+                                 int length;
+
+                                 while ((length = is.read(b)) != -1) {
+                                     os.write(b, 0, length);
+                                 }
+                                 is.close();
+                                 os.close();
+                             } catch (IOException e) {
+                                 e.printStackTrace();
+                                 System.exit(1);
+                             }
+
+                             mapFrame.add(new JLabel(new ImageIcon((new ImageIcon("map.jpg")).getImage().getScaledInstance(630, 600,
+                                     java.awt.Image.SCALE_SMOOTH))));
+                             mapFrame.pack();
+                             mapFrame.setVisible(true);
 
 
-    public void propertyAddProperty() throws Exception {
+                             //clear the selection in the Listener so that each invocation of the listener has a single selection
+                             table.getSelectionModel().clearSelection();
+                         }
 
-        kwrealtorsDao.propertyAddProperty();
+                     }
 
-    }
+                 });  // close property table Listener
 
-    public void propertyUpdateProperty() throws Exception {
-
-        kwrealtorsDao.propertyUpdateProperty();
-
-    }
+             }  // closes fetchAgentProperty
 
 
-    public void propertyDeleteProperty() throws Exception {
+             public void employeeAddEmployee() throws Exception {
 
-            kwrealtorsDao.propertyDeleteProperty();
+                 kwrealtorsDao.employeeAddEmployee();
 
-    }
+             }
+
+             public void employeeUpdateEmployee() throws Exception {
+
+                 kwrealtorsDao.employeeUpdateEmployee();
+
+             }
 
 
-    public void changePassW() throws Exception{
+             public void employeeDeleteEmployee() throws Exception {
 
-        kwrealtorsDao.passwChange();
+                 kwrealtorsDao.employeeDeleteEmployee();
 
-    }
+             }
 
-} // closes KwRealtorsApp
+
+             public void propertyAddProperty() throws Exception {
+
+                 kwrealtorsDao.propertyAddProperty();
+
+             }
+
+             public void propertyUpdateProperty() throws Exception {
+
+                 kwrealtorsDao.propertyUpdateProperty();
+
+             }
+
+
+             public void propertyDeleteProperty() throws Exception {
+
+                 kwrealtorsDao.propertyDeleteProperty();
+
+             }
+
+
+             public void changePassW() throws Exception {
+
+                 kwrealtorsDao.passwChange();
+
+             }
+
+         } // closes KwRealtorsApp
 
 
