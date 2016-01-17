@@ -8,7 +8,7 @@ The type of employees are:
 
 Agents - can make changes to property listings     
 Clerical Staff - can make changes to employee db     
-Managers. 
+Managers - can view both Employee list and Property list 
 
 Each job type is allowed to preform certain activities such as add or update a property listing or delete an employee from the database. 
 
@@ -23,6 +23,12 @@ User - contains ID & passwords of all active employees.
 Key - used as a storage of the instance ID & real estate License No
                     
 BeanTableModel; RowTableModel         
-from GitHub account - arlahiru
+forked from GitHub account - arlahiru
 
 java version:  1.8.0 
+Apache Maven build 
+
+1-17-2015
+added mapping capablities for property lookup using Google static map.
+- addition made in fetchAgentProperty() function of KWrealtorsApp.java
+- updated property.txt with valid street address
