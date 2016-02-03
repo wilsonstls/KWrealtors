@@ -21,9 +21,14 @@ M - 11111  ABC
 Hibernate table files stored in data directory. 
 
 Environment:
-Writte in:    Java SE8
+Written in:    Java SE8
+
 DB:           Hibernate
+
 Build tool:   Apache Maven
+
 Other tools:  spring framework;  swing components
+
 API:          Google Static Maps
+
 IDE:          Intellij IDEA
