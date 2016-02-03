@@ -14,6 +14,29 @@ individual portal screen based on their job type
 (A = agent / C = clerical / M = manager). At this screen the employee 
 can perform various job functions. 
 
+Agent's in their portal can perform: 
+
+    property listing lookups. 
+
+    map retrieval by street address of a listing
+
+    Add a new listing / Delete a listing / Update an existing listing
+    
+Clerical's in their portal can perform: 
+
+    Add a new employee / Move an employee to inactive / Update employee info.
+    
+Manager's in their portal can perform: 
+
+  List all active employees 
+  
+  List all available properties for sale 
+  
+  List properties by agent
+  
+  List property by price from highest to lowest. 
+
+
 Sample of ID & passw per job type:  
 A - 11115  ABC
 C - 11120  ABC
