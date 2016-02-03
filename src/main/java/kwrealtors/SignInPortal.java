@@ -152,8 +152,8 @@ public class SignInPortal extends Portal
         });
 
         //create the window
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);   // maximizes to full screen size
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setFocusable(true);
         frame.getContentPane().add(P);
         frame.setVisible(true);
 

@@ -72,6 +72,7 @@ public class KwRealtorsApp {
         JLabel bHeading = new JLabel("JobType = A: Agent  C: Clerical  M: Manager");
         bHeading.setFont(new Font("Arial", Font.TRUETYPE_FONT, 20));
 
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);   // maximizes to full screen size
         frame.getContentPane().setLayout(new BorderLayout());
         frame.getContentPane().add(tHeading, BorderLayout.PAGE_START);
         frame.getContentPane().add(bHeading, BorderLayout.PAGE_END);
@@ -109,6 +110,7 @@ public class KwRealtorsApp {
         JLabel tHeading = new JLabel("Available Properties");
         tHeading.setFont(new Font("Arial",Font.TRUETYPE_FONT, 18));
 
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);   // maximizes to full screen size
         frame.getContentPane().setLayout(new BorderLayout());
         frame.getContentPane().add(tHeading, BorderLayout.PAGE_START);
         frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
@@ -144,6 +146,7 @@ public class KwRealtorsApp {
         JLabel tHeading = new JLabel("Available Properties by Price");
         tHeading.setFont(new Font("Arial",Font.TRUETYPE_FONT, 18));
 
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);   // maximizes to full screen size
         frame.getContentPane().setLayout(new BorderLayout());
         frame.getContentPane().add(tHeading, BorderLayout.PAGE_START);
         frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
@@ -180,6 +183,7 @@ public class KwRealtorsApp {
         JLabel tHeading = new JLabel("Available Properties by Agent");
         tHeading.setFont(new Font("Arial",Font.TRUETYPE_FONT, 18));
 
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);   // maximizes to full screen size
         frame.getContentPane().setLayout(new BorderLayout());
         frame.getContentPane().add(tHeading, BorderLayout.PAGE_START);
         frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
@@ -212,6 +216,7 @@ public class KwRealtorsApp {
         JLabel bHeading = new JLabel("Click on a Listing to map its location");
         bHeading.setFont(new Font("Arial", Font.TRUETYPE_FONT, 20));
 
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);   // maximizes to full screen size
         frame.getContentPane().setLayout(new BorderLayout());
         frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
         frame.add(bHeading, BorderLayout.PAGE_END);

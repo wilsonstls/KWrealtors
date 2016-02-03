@@ -138,6 +138,7 @@ public class ManagerPortal extends Portal
        });
 
        //create the new window
+           frame.setExtendedState(JFrame.MAXIMIZED_BOTH);   // maximizes to full screen size
            frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
            frame.getContentPane().add(P);
            frame.setVisible(true);
