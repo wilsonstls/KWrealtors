@@ -20,7 +20,6 @@ M - 11111  ABC
 
 Hibernate table files stored in data directory. 
 
-Environment:
 Written in:    Java SE8
 
 DB:           Hibernate
