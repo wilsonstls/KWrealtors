@@ -28,13 +28,13 @@ Clerical's in their portal can perform:
     
 Manager's in their portal can perform: 
 
-  List all active employees 
+    List all active employees 
   
-  List all available properties for sale 
+    List all available properties for sale 
   
-  List properties by agent
+    List properties by agent
   
-  List property by price from highest to lowest. 
+    List properties by price from highest to lowest. 
 
 
 Sample of ID & passw per job type:  
