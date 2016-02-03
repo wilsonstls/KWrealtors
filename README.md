@@ -16,9 +16,9 @@ can perform various job functions.
 
 Agent's in their portal can perform: 
 
-    property listing lookups. 
+    List of their property listings. 
 
-    map retrieval by street address of a listing
+    Retrieve a Google Map lookup by street address for a listing
 
     Add a new listing / Delete a listing / Update an existing listing
     
