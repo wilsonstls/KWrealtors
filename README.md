@@ -1,9 +1,10 @@
-KWeealtors
+KWrealtors
 
 Author:  Kevin Wilson
 
 Purpose: 
 Application utilized by employees of a Real Estate company.
+
 Project was created in conjunction with LaunchCode - St. Louis, MO
 
 Summary:
