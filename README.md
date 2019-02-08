@@ -5,7 +5,6 @@ Author:  Kevin Wilson
 Purpose: 
 Application utilized by employees of a Real Estate company.
 
-Project was created in conjunction with LaunchCode - St. Louis, MO
 
 Summary:
 Application immediately opens to a GUI screen where the employee enters 
